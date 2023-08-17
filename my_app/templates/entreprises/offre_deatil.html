@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <title>Détails de l'offre</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    h4 {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #28a745;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+    }
+
+    .icon {
+      margin-right: 5px;
+    }
+
+    .fa-building {
+      color: #28a745; /* Couleur verte pour l'icône entreprise */
+    }
+
+    .fa-map-marker-alt {
+      color: #007bff; /* Couleur bleue pour l'icône ville */
+    }
+
+    .fa-file-contract {
+      color: #ffc107; /* Couleur jaune pour l'icône type de contrat */
+    }
+
+    .fa-money-bill {
+      color: #dc3545; /* Couleur rouge pour l'icône salaire */
+    }
+
+    .fa-folder-open {
+      color: #6c757d; /* Couleur grise pour l'icône domaine */
+    }
+
+    /* Style pour le lien "Retirer" en rouge */
+    .btn-retirer {
+      background-color: #dc3545;
+    }
+
+    .btn-retirer:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  {% block content %}
+  <div class="container">
+    <h1><strong>{{ emploi.titre }}</strong></h1>
+    <h1><i class="fas fa-building icon"></i>Entreprise : {{ emploi.entreprise }}</h1>
+    <h4><i class="fas fa-map-marker-alt icon"></i>Ville : {{ emploi.ville }}</h4>
+    <h4><i class="fas fa-file-contract icon"></i>Type de Contrat : {{ emploi.type_contrat }}</h4>
+    <p>{{ emploi.description }}</p>
+    <p>{{ emploi.exigence }}</p>
+    <p><i class="fas fa-money-bill icon"></i>Salaire : {{ emploi.salaire }}</p>
+    <p><i class="fas fa-folder-open icon"></i>Domaine : {{ emploi.domaine }}</p>
+
+    {% if user.is_authenticated and user.is_candidate %}
+      <a href="{% url 'postuler' emploi.id %}" class="btn btn-success">Postuler</a>
+    {% endif %}
+    <a href="{% url 'modifier_offre' emploi.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
+    <a href="{% url 'retirer_offre' emploi.id %}" class="btn btn-retirer"><i class="fas fa-trash-alt"></i>Retirer</a>
+  </div>
+{% endblock %}
+
+</body>
+</html>

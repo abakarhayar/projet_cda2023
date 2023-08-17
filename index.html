@@ -1,0 +1,12 @@
+using Sytem
+
+public class ClassFaire {
+    public int faire(int[tabEntree]){
+        int retour = 0;
+        if(tabEntree.Length > 0)
+           foreach(int i in tabEntree)
+             if(i > retour)
+               retour = i;
+        return retour;       
+    }
+}

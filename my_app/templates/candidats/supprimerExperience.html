@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+</head>
+<body>
+    {% block content %}
+<div class="container">
+   
+    <p>Voulez-vous vraiment supprimer cette experience ?</p>
+    <form method="post" id="delete-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button>
+        <a href="{% url 'profil_candidat' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Annuler</a>
+    </form>
+</div>
+
+<script>
+    document.getElementById("delete-form").addEventListener("submit", function (event) {
+        var confirmation = confirm("Voulez-vous vraiment supprimer cette experience ?");
+        if (!confirmation) {
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}
+</body>
+</html>

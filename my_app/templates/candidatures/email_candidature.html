@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation de candidature</title>
+</head>
+<body>
+    <h2>Confirmation de candidature</h2>
+    <p>Merci d'avoir postulé à l'emploi "{{ candidature.emploi.titre }}". Votre candidature a été enregistrée avec succès.</p>
+    
+    <h3>Détails de la candidature :</h3>
+    <ul>
+        <li><strong>Nom du candidat :</strong> {{ candidature.candidat.nom }} {{ candidature.candidat.prenom }}</li>
+        <li><strong>Date de candidature :</strong> {{ candidature.dateCandidature }}</li>
+        <li><strong>Lettre de motivation :</strong> {{ candidature.lettreMotivation }}</li>
+    </ul>
+    
+    <p>Nous vous tiendrons informé(e) de la suite du processus de recrutement. N'hésitez pas à nous contacter si vous avez des questions supplémentaires.</p>
+    
+    <p>Cordialement,<br>
+    {{ candidature.emploi.entreprise.nom }}</p>
+</body>
+</html>

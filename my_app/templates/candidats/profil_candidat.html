@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profil Candidat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Ajoutez le lien vers Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+    
+        p {
+            text-align: left;
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+    
+        a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+    
+        a:hover {
+            background-color: #45a049;
+        }
+    
+        .cv-container {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 30px;
+        }
+    
+        .cv-message {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    
+        .cv-download-button {
+            margin-top: 20px;
+        }
+    
+        .competences-container {
+            margin-top: 40px;
+        }
+    
+        .competences-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        .competences-table th,
+        .competences-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    
+        .competences-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    
+        .competences-table td {
+            text-align: center;
+        }
+    
+        .competences-table td.add-competence {
+            text-align: left;
+            padding: 10px;
+        }
+    
+        .competences-table td.add-competence form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+    
+        .competences-table td.add-competence input[type="text"] {
+            padding: 6px 12px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+    
+        .competences-table td.add-competence select {
+            padding: 6px 12px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+    
+        .competences-table td.add-competence button[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+        }
+    
+        .competences-table td.add-competence button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .experiences-container {
+            margin-top: 40px;
+        }
+    
+        .experiences-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        .experiences-table th,
+        .experiences-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    
+        .experiences-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    
+        .experiences-table td {
+            text-align: center;
+        }
+    
+        .experiences-table td.add-experience {
+            text-align: left;
+            padding: 10px;
+        }
+    
+        .experiences-table td.add-experience form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+    
+        .experiences-table td.add-experience input[type="text"],
+        .experiences-table td.add-experience textarea,
+        .experiences-table td.add-experience input[type="date"] {
+            padding: 6px 12px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+    
+        .experiences-table td.add-experience button[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+        }
+    
+        .experiences-table td.add-experience button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .add-experience {
+        padding: 20px;
+        background-color: #f2f2f2;
+    }
+    
+    .add-experience h3 {
+        margin-bottom: 20px;
+    }
+    
+    .form-row {
+        margin-bottom: 15px;
+    }
+    
+    .form-row label {
+        display: inline-block;
+        width: 120px;
+        font-weight: bold;
+        vertical-align: top;
+    }
+    
+    .form-row input[type="text"],
+    .form-row textarea,
+    .form-row input[type="date"] {
+        padding: 6px 12px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        width: 200px;
+    }
+    
+    .form-row textarea {
+        height: 80px;
+        resize: vertical;
+    }
+    
+    .form-row button[type="submit"] {
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+    }
+    .formations-container {
+            margin-top: 40px;
+        }
+    
+        .formations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        .formations-table th,
+        .formations-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    
+        .formations-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    
+        .formations-table td {
+            text-align: center;
+        }
+        .delete-button {
+        background-color: #ff0000; /* Red background color */
+    }
+    
+    /* Style for the "Supprimer" buttons on hover */
+    .delete-button:hover {
+        background-color: #cc0000; /* Darker red background color on hover */
+    }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">Bienvenue sur votre profil, {{ candidat.nom }} {{ candidat.prenom }} !</h1>
+        <div class="text-center">
+            <a href="{% url 'modifier_profile_candidat' candidat.id %}" class="btn btn-primary mt-3"><i class="fas fa-edit"></i> Mettre à jour mes données personnelles</a>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <p><strong>Nom :</strong> {{ candidat.nom }}</p>
+                <p><strong>Prénom :</strong> {{ candidat.prenom }}</p>
+                <p><strong>Téléphone :</strong> {{ candidat.telephone }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Ville :</strong> {{ candidat.ville }}</p>
+                <p><strong>Email :</strong> {{ candidat.email }}</p>
+            </div>
+        </div>
+        
+        <div class="cv-container mt-4">
+            <object data="{{ candidat.cv.url }}" type="application/pdf" width="100%" height="600px">
+                <p class="cv-message">Votre navigateur ne prend pas en charge l'affichage des fichiers PDF. Pour voir le CV cliquer sur le lien "Voir mon CV" <br>
+                    <a class="btn btn-primary mt-3" href="{{ candidat.cv.url }}" target="_blank"><i class="fas fa-eye"></i>Voir mon CV </a></p>
+            </object>
+            
+        </div>
+
+        <div class="competences-container mt-4">
+            <h2>Mes compétences</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Niveau</th>
+                        <th>Actions</th> <!-- Add a new column for actions -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for competence in candidat.competences.all %}
+                        <tr>
+                            <td>{{ competence.nom }}</td>
+                            <td>{{ competence.niveau }}</td>
+                            <td>
+                                <a href="{% url 'modifierCompetence' competence.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
+                                <a href="{% url 'supprimerCompetence' competence.id %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3">
+                            <a href="{% url 'ajouterCompetence' %}" class="btn btn-success">Ajouter une compétence</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+
+        <div class="experiences-container mt-4">
+            <h2>Mes expériences</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Entreprise</th>
+                        <th>Poste</th>
+                        <th>Description</th>
+                        <th>Date de début</th>
+                        <th>Date de fin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for experience in candidat.experiences.all %}
+                        <tr>
+                            <td>{{ experience.entreprise }}</td>
+                            <td>{{ experience.poste }}</td>
+                            <td>{{ experience.description }}</td>
+                            <td>{{ experience.dateDebut|date:"d/m/Y" }}</td>
+                            <td>{{ experience.dateFin|date:"d/m/Y" }}</td>
+                            <td>
+                                <a href="{% url 'modifierExperience' experience.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
+                                <a href="{% url 'supprimerExperience' experience.id %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="6">
+                            <a href="{% url 'ajouterExperience' %}" class="btn btn-success">Ajouter une expérience</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><br>
+
+        <div class="formations-container mt-4">
+            <h2>Mes formations</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Nom de l'école</th>
+                        <th>Ville</th>
+                        <th>Date de début</th>
+                        <th>Date de fin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for formation in candidat.formations.all %}
+                        <tr>
+                            <td>{{ formation.titre }}</td>
+                            <td>{{ formation.nom_ecole }}</td>
+                            <td>{{ formation.ville }}</td>
+                            <td>{{ formation.dateDebut|date:"d/m/Y" }}</td>
+                            <td>{{ formation.dateFin|date:"d/m/Y" }}</td>
+                            <td>
+                                <a href="{% url 'modifierFormation' formation.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
+                                <a href="{% url 'supprimerFormation' formation.id %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="6">
+                            <a href="{% url 'ajouterFormation' %}" class="btn btn-success">Ajouter une formation</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <br>
+
+        <div class="text-center">
+            <a href="{% url 'deconnexion' %}" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+            <a href="{% url 'home' %}" class="btn btn-primary"><i class="fas fa-home"></i>Page d'accueil</a>
+            <a href="{% url 'mes_candidatures' candidat.id %}" class="btn btn-primary">Liste des candidatures</a>
+        </div>
+    </div>
+
+    <!-- Scripts Bootstrap (Placez ces scripts juste avant la balise de fermeture </body> pour une meilleure performance) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

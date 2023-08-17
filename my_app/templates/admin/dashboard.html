@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            padding: 10px 0;
+            background-color:  #007bff;
+            color: #fff;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            display: inline-block;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color:  #007bff;
+        }
+
+        .fa-check-circle {
+            color: #4CAF50;
+        }
+
+        .fa-times-circle, .fa-trash {
+            color: #f44336;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 5px 8px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+            margin-right: 3px;
+            margin-left: 10px;
+        }
+
+        .btn:hover {
+            background-color: #007bff;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+
+        .refused {
+            color: red;
+        }
+
+        .accepted {
+            color: green;
+        }
+
+        .sidebar {
+            float: left;
+            width: 200px;
+            background-color: #fff;
+            padding: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 20px 10px;
+            text-decoration: none;
+            color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .lien{
+            padding: 50px 4px;
+        }
+
+        .sidebar a:hover {
+            background-color: #f2f2f2;
+            color: #007bff;
+        }
+
+        .active {
+            background-color:  #007bff;
+            color: #fff;
+        }
+
+        .content {
+            margin-left: 220px; /* 200px (sidebar width) + 20px (padding) */
+            padding: 20px;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                float: none;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu à gauche -->
+    <div class="sidebar">
+        <a href="#" class="active" onclick="showTable('utilisateurs')">Utilisateurs</a>
+        <a href="#" onclick="showTable('candidats')">Candidats</a>
+        <a href="#" onclick="showTable('entreprises')">Entreprises</a>
+        <a href="#" onclick="showTable('emplois')">Emplois</a>
+        <a href="#" onclick="showTable('postuler')">Postuler</a>
+        <a href="#" onclick="showTable('competences')">Compétences</a>
+        <a href="#" onclick="showTable('formations')">Formations</a>
+        <a href="#" onclick="showTable('experiences')">Expérience</a>
+        <div class="lien">
+            <a style="background-color: red;" href="{% url 'deconnexion' %}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        <a href="{% url 'home' %}"><i class="fas fa-home"></i> Page d'accueil</a>
+        </div>
+        
+    </div> 
+
+    <!-- Contenu principal -->
+    <h1 style="text-align: center;">Dashboard</h1>
+    <div class="content">
+        
+        <div id="utilisateurs" style="display:block;">
+            <h2>Utilisateurs</h2>
+            <!-- Tableau des utilisateurs -->
+            <table>
+                <tr> 
+                    <th>Email</th>
+                    <th>Mot de passe</th>
+                    <th>Date de création</th>
+                    <th>Rôle</th>
+                    <th>Activer/Désactiver</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for utilisateur in users %}
+                <tr>
+                    <td>{{ utilisateur.email }}</td>
+                    <td><i class="fas fa-lock"></i> Caché</td>
+                    <td>{{ utilisateur.date_joined|date:"d/m/Y à H\hi"}}</td>
+                    <td>
+                        {% if utilisateur.is_staff == 1 %}
+                            <i class="fas fa-check-circle"></i> Administrateur
+                        {% else %}
+                            <i class="fas fa-times-circle"></i> Non admin
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if utilisateur.is_active %}
+                            <i class="fas fa-check-circle"></i> Actif
+                        {% else %}
+                            Désactivé
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/modifier_user/{{utilisateur.id}}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_user/{{ utilisateur.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5">
+                        <a href="/ajouter_user/" class="btn btn-add"><i class="fas fa-plus"></i> Ajouter un utilisateur</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div id="candidats" style="display:none;">
+            <h2>Candidats</h2>
+            <!-- Tableau des candidats -->
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Ville</th>
+                    <th>CV</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for candidat in candidats %}
+                <tr>
+                    <td>{{ candidat.nom }}</td>
+                    <td>{{ candidat.prenom }}</td>
+                    <td>{{ candidat.email }}</td>
+                    <td>{{ candidat.telephone }}</td>
+                    <td>{{ candidat.ville }}</td>
+                    <td><a href="{{ candidat.cv.url }}" target="_blank" class="btn"><i class="fas fa-eye"></i>Voir le CV du candidat</a></td>
+                    <td>
+                        <a href="/modifier_candidat/{{ candidat.id }}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_candidat/{{ candidat.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5">
+                        <a href="/ajouter_candidat/" class="btn btn-add"><i class="fas fa-plus"></i> Ajouter un candidat</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div id="entreprises" style="display:none;">
+            <h2>Entreprises</h2>
+            <!-- Tableau des entreprises -->
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Siren</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Ville</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for entreprise in entreprises %}
+                <tr>
+                    <td>{{ entreprise.nom }}</td>
+                    <td>{{ entreprise.siren }}</td>
+                    <td>{{ entreprise.email }}</td>
+                    <td>{{ entreprise.telephone }}</td>
+                    <td>{{ entreprise.ville }}</td>
+                    <td>
+                        <a href="/modifier_entreprise/{{ entreprise.id }}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_entreprise/{{ entreprise.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4">
+                        <a href="/ajouter_entreprise/" class="btn btn-add"><i class="fas fa-plus"></i> Ajouter une entreprise</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div id="emplois" style="display:none;">
+            <h2>Emplois</h2>
+            <!-- Tableau des emplois -->
+            <table>
+                <tr>
+                    <th>Titre</th>
+                    <th>Entreprise</th>
+                    <th>Description</th>
+                    <th>Exigence</th>
+                    <th>Ville</th>
+                    <th>Salaire</th>
+                    <th>Type de contrat</th>
+                    <th>Domaine</th>
+                    <th>Date de publication</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for emploi in emplois %}
+                <tr>
+                    <td>{{ emploi.titre }}</td>
+                    <td>{{ emploi.entreprise.nom }}</td>
+                    <td>{{ emploi.description }}</td>
+                    <td>{{ emploi.exigence}}</td>
+                    <td>{{ emploi.ville }}</td>
+                    <td>{{ emploi.salaire}}</td>
+                    <td>{{ emploi.type_contrat }}</td>
+                    <td>{{ emploi.domaine }}</td>
+                    <td>{{ emploi.datePublication|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="/modifier_emploi/{{ emploi.id }}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_emploi/{{ emploi.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4">
+                        <a href="/ajouter_emploi/" class="btn btn-add"><i class="fas fa-plus"></i> Ajouter un emploi</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="postuler" style="display:none;">
+            <h2>Postuler</h2>
+            <!-- Tableau des postulations -->
+            <table>
+                <tr>
+                    <th>Candidat</th>
+                    <th>Emploi</th>
+                    <th>Lettre de motivation</th>
+                    <th>Date de candidature</th>
+                    <th>Statut</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for postulation in postulations %}
+                <tr>
+                    <td>{{ postulation.candidat.nom }} {{ postulation.candidat.prenom }}</td>
+                    <td>{{ postulation.emploi.titre }}</td>
+                    <td>{{ postulation.lettreMotivation }}</td>
+                    <td>{{ postulation.dateCandidature|date:"d/m/Y" }}</td>
+                    <td class="{% if postulation.statutCandidature == 'Refusée' %}refused{% else %}accepted{% endif %}">{{ postulation.statutCandidature }}</td>
+                    <td>
+                        <a href="/modifier_postulation/{{ postulation.id }}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_postulation/{{ postulation.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4">
+                        <a href="/ajouter_postulation/" class="btn btn-add"><i class="fas fa-plus"></i>Ajouter Postulation</a>
+                    </td>
+            </table>
+        </div>
+        
+        <div id="competences" style="display:none;">
+            <h2>Compétences</h2>
+            <!-- Tableau des compétences -->
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Niveau</th>
+                    <th>Candidat</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for competence in competences %}
+                <tr>
+                    <td>{{ competence.nom }}</td>
+                    <td>{{ competence.niveau }}</td>
+                    <td>{{ competence.candidat.nom }} {{ competence.candidat.prenom }}</td>
+                    <td>
+                        <a href="/modifier_competence/{{ competence.id }}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_competence/{{ competence.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3">
+                        <a href="/ajouter_competence/" class="btn btn-add"><i class="fas fa-plus"></i> Ajouter une compétence</a>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>  
+
+        <div id="formations" style="display:none;">
+            <h2>Formations</h2>
+            <!-- Tableau des formations -->
+            <table>
+                <tr>
+                    <th>Titre</th>
+                    <th>École</th>
+                    <th>Ville</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Candidat</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for formation in formations %}
+                <tr>
+                    <td>{{ formation.titre }}</td>
+                    <td>{{ formation.nom_ecole }}</td>
+                    <td>{{ formation.ville }}</td>
+                    <td>{{ formation.dateDebut|date:"d/m/Y" }}</td>
+                    <td>{{ formation.dateFin|date:"d/m/Y" }}</td>
+                    <td>{{ formation.candidat.nom }} {{ formation.candidat.prenom }}</td>
+                    <td>
+                        <a href="/modifier_formation/{{ formation.id }}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_formation/{{ formation.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="6">
+                        <a href="/ajouter_formation/" class="btn btn-add"><i class="fas fa-plus"></i> Ajouter une formation</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="experiences" style="display:none;">
+            <h2>Expérience</h2>
+            <!-- Tableau des expériences -->
+            <table>
+                <tr>
+                    <th>Poste</th>
+                    <th>Entreprise</th>
+                    <th>Ville</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Candidat</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                {% for experience in experiences %}
+                <tr>
+                    <td>{{ experience.poste }}</td>
+                    <td>{{ experience.entreprise.nom }}</td>
+                    <td>{{ experience.ville }}</td>
+                    <td>{{ experience.dateDebut|date:"d/m/Y" }}</td>
+                    <td>{{ experience.dateFin|date:"d/m/Y" }}</td>
+                    <td>{{ experience.candidat.nom }} {{ experience.candidat.prenom }}</td>
+                    <td>
+                        <a href="/modifier_experience/{{ experience.id }}" class="btn"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="/supprimer_experience/{{ experience.id }}" class="btn"><i class="fas fa-trash"></i> Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="6">
+                        <a href="/ajouter_experience/" class="btn btn-add"><i class="fas fa-plus"></i> Ajouter une expérience</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour afficher le tableau correspondant au menu cliqué
+        function showTable(tableName) {
+            var tables = document.getElementsByClassName("content")[0].children;
+            for (var i = 0; i < tables.length; i++) {
+                tables[i].style.display = "none";
+            }
+            document.getElementById(tableName).style.display = "block";
+
+            var links = document.getElementsByClassName("sidebar")[0].children;
+            for (var i = 0; i < links.length; i++) {
+                links[i].classList.remove("active");
+            }
+            event.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

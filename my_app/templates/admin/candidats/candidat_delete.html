@@ -1,0 +1,8 @@
+<h1>Supprimer le candidat</h1>
+
+<p>Voulez-vous vraiment supprimer le candidat "{{ candidat.nom }} {{ candidat.prenom }}" ?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Supprimer</button>
+</form>

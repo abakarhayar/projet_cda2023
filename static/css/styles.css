@@ -1,0 +1,21 @@
+.jumbotron {
+    background-color: #f8f9fa;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+  }
+  
+  .card {
+    border-radius: 0.3rem;
+  }
+  
+  .card-link {
+    font-weight: bold;
+  }
+  
+  @media (min-width: 768px) {
+    .card {
+      margin-bottom: 1rem;
+    }
+  }
+  

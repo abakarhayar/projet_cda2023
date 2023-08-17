@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des offres d'emploi - {{ entreprise.nom }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        .no-offer {
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ entreprise.nom }}</h1>
+    <h2>Liste des offres d'emploi</h2>
+
+    {% if emplois %}
+        <ul>
+            {% for emploi in emplois %}
+                <li>
+                    <h3>{{ emploi.titre }}</h3>
+                    <p>Ville: {{ emploi.ville }}</p>
+                    <p>Salaire: {{ emploi.salaire }}</p>
+                    <p>Contrat: {{ emploi.type_contrat }}</p>
+                    <p>{{ emploi.description }}</p>
+                    <a href="{% url 'offre_emploi_detail' emploi.id %}">En savoir plus</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-offer">Aucune offre d'emploi n'a été publiée pour le moment.</p>
+    {% endif %}
+</body>
+</html>

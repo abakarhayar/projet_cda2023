@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des candidats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            max-width: 70%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            color: #999;
+            font-style: italic;
+        }
+        .refused {
+            color: red;
+        }
+
+        .accepted {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>Liste des candidats ayant postulé aux offres d'emploi de l'entreprise {{ entreprise.nom }}</h2>
+    {% if candidats %}
+        <table>
+            <tr>
+                <th>Nom du candidat</th>
+                <th>Date de candidature</th>
+                <th>Lettre de motivation</th>
+                <th>CV</th>
+                <th>Titre de l'offre</th>
+                <th>Description de l'offre</th>
+                <th>Statut de candidature</th>
+                <th>Modifier le statut</th>
+                <th>Contacter le candidat</th>
+            </tr>
+            {% for candidat in candidats %}
+                {% for postulation in candidat.postuler_set.all %}
+                    {% if postulation.emploi.entreprise_id == entreprise_id %}
+                        <tr>
+                            <td><strong>{{ candidat.nom }} </strong> {{ candidat.prenom }}</td>
+                            <td>{{ postulation.dateCandidature|date:"d/m/Y"}}</td>
+                            <td>{{ postulation.lettreMotivation }}</td>
+                            <td><a href="{{ postulation.candidat.cv.url }}" target="_blank"><i class="fas fa-eye"></i>Voir le CV</a></td>
+                            <td>{{ postulation.emploi.titre }}</td>
+                            <td><a href="{% url 'offre_emploi_detail' postulation.emploi.id %}" class="job-details-link"><i class="fas fa-eye"></i>Voir l'offre</a></td>
+                            <td class="{% if postulation.statutCandidature == 'Refusée' %}refused{% else %}accepted{% endif %}">{{ postulation.statutCandidature }}</td>
+                            <td><a href="{% url 'modifier_statut_candidature' postulation_id=postulation.id %}"><i class="fas fa-edit"></i> Modifier le statut</a></td>
+                            <td><a href="{% url 'chat_message' entreprise_id=entreprise.id candidat_id=candidat.id %}"><i class="fas fa-envelope"></i> Contacter</a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            
+        </table>
+        <a href="{% url 'profil_entreprise' %}" class="btn btn-primary"><i class="fas fa-sign-out-alt"></i> Retour à mon profil</a>
+    {% else %}
+        <p>Aucun candidat n'a postulé aux offres d'emploi de cette entreprise pour le moment.</p>
+    {% endif %}
+</body>
+</html>

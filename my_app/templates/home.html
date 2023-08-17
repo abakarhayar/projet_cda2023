@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif; /* Utilisation de la police Arial */
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: Montserrat, sans-serif; /* Utilisation de la police Montserrat pour les titres */
+    }
+    .jumbotron {
+      background-color: #f8f9fa;
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .form-row .col-md-4 {
+      margin-bottom: 1rem;
+    }
+    .no-offers {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    @media (max-width: 576px) {
+      .form-row .col-md-4 {
+        margin-bottom: 0.5rem;
+      }
+    }
+    .icon-company {
+      color: #28a745; /* Couleur verte pour l'icône entreprise */
+      margin-right: 5px;
+    }
+    .icon-location {
+      color: #007bff; /* Couleur bleue pour l'icône ville */
+      margin-right: 5px;
+    }
+    .icon-contract {
+      color: #ffc107; /* Couleur jaune pour l'icône type de contrat */
+      margin-right: 5px;
+    }
+    .icon-date {
+      color: #dc3545; /* Couleur rouge pour l'icône date de publication */
+      margin-right: 5px;
+    }
+    .footer {
+      background-color: #424345;
+      padding: 2rem 0;
+      text-align: center;
+      
+    }
+    .form-group.text-center {
+  text-align: center;
+}
+
+.form-row {
+  justify-content: center;
+}
+
+    
+  </style>
+</head>
+<body>
+{% block content %}
+
+<div class="jumbotron">
+  <div class="jumbotron">
+    <img src="{% static 'log.png' %}" style="width: 10%;">
+    <h1 class="display-4">Trouvez votre prochain emploi</h1>
+    <p class="lead">Des milliers d'offres d'emploi pour tous les profils et toutes les régions.</p>
+    <!-- Reste du contenu du jumbotron... -->
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Candidat ?
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{% url 'connexion_candidat' %}">Connexion</a>
+          <a class="dropdown-item" href="{% url 'inscription_candidat' %}">Inscription</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Entreprise ?
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{% url 'connexion_entreprise' %}">Connexion</a>
+          <a class="dropdown-item" href="{% url 'inscription_entreprise' %}">Inscription</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Admin ?
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{% url 'connexion_admin' %}">Connexion</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="container">
+    <form method="GET" action="{% url 'rechercher_emplois' %}">
+      <div class="form-row">
+        <div class="form-group col-md-4 mb-3 text-center">
+          <label for="titre_poste" class="align-self-center text-right" style="font-size: 18px;">Titre du poste :</label>
+          <input type="text" class="form-control" id="titre_poste" name="titre_poste">
+          <label for="ville" class="align-self-center text-right" style="font-size: 18px;">Ville :</label>
+          <input type="text" class="form-control" id="ville" name="ville">
+          <label for="type_contrat" class="align-self-center text-right" style="font-size: 18px;"></label>
+          <select class="form-control" id="type_contrat" name="type_contrat">
+            <option value="">Type de contrat</option>
+            <option value="CDI">CDI</option>
+            <option value="CDD">CDD</option>
+            <option value="Stage">Stage</option>
+            <option value="Alternance">Alternance</option>
+          </select>
+          <label for="domaine" class="align-self-center text-right" style="font-size: 18px;"></label>
+          <select class="form-control" id="domaine" name="domaine">
+            <option value="">Domaines</option>
+            <option value="Informatique">Informatique</option>
+            <option value="Finance">Finance</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Santé">Santé</option>
+          </select>
+          <label for="date_publication" class="align-self-center text-right" style="font-size: 18px;">Date de publication :</label>
+          <input type="date" class="form-control" id="date_publication" name="date_publication"> <br>
+          <button type="submit" class="btn btn-primary">Rechercher</button>
+        </div>
+      </div>
+    </form>
+    
+    <h2 class="text-center">Offres d'emploi récentes</h2>
+    <div class="row">
+      {% for emploi in emplois %}
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ emploi.titre }}</h5>
+              <h6 class="card-title"><i class="fas fa-building icon-company"></i>Nom de l'entreprise : <strong>{{ emploi.entreprise.nom }}</strong></h6>
+              <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-map-marker-alt icon-location"></i>Ville : {{ emploi.ville }}</h6>
+              <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-file-contract icon-contract"></i>Type de contrat : {{ emploi.type_contrat }}</h6>
+              <h6 class="card-subtitle mb-2 text-muted"><i class="far fa-calendar-alt icon-date"></i>Publiée le : {{ emploi.datePublication|date:"d/m/Y" }}</h6>
+              <p class="card-text">Description de l'offre : {{ emploi.description|truncatechars:100 }}</p>
+              <a href="{% url 'offre_emploi_detail' emploi.id %}">En savoir plus</a> <br>
+              {% if user.is_authenticated and user.candidat %}
+                <a href="{% url 'postuler_emploi' emploi.id %}" class="postuler">Postuler</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p class="no-offers">Aucune offre d'emploi n'est disponible pour le moment.</p>
+      {% endfor %}
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <p style="color: white;">© ABAKAR-CDA-2023. Tous droits réservés. <br>
+       <a href="#">Politique de confidentialité</a> <br>
+       <a href="#">Condition d'utilisation</a>
+      </p>
+    </div>
+  </footer>
+{% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

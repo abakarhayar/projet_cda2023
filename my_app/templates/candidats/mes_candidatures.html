@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Candidat</title>
+    <!-- Ajoutez le lien vers Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .candidatures-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .candidatures-table th,
+        .candidatures-table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .candidatures-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .refused {
+            color: red;
+            font-weight: bold;
+        }
+
+        .accepted {
+            color: green;
+            font-weight: bold;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .job-details-link {
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+        }
+
+        .job-details-link:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style pour les boutons */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .candidatures-table th,
+            .candidatures-table td {
+                font-size: 14px;
+            }
+        }
+        .icon {
+            font-size: 18px;
+            margin-right: 5px;
+        }
+
+        .icon-green {
+            color: green;
+        }
+
+        .icon-red {
+            color: red;
+        }
+
+        .btn {
+            /* ... (styles précédents) ... */
+            /* Ajoutez des icônes aux boutons */
+            padding-left: 5px;
+            padding-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+        <h2>Mes candidatures</h2>
+        {% if candidatures %}
+            <div class="table-responsive">
+                <table class="candidatures-table table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Entreprise</th>
+                            <th>Titre de l'offre</th>
+                            <th>Date de candidature</th>
+                            <th>Lettre de motivation</th>
+                            <th>Statut de votre candidature</th>
+                            <th>Détail de l'offre d'emploi</th>
+                            <th>Contacter l'entreprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidature in candidatures %}
+                            <tr>
+                                <td>{{ candidature.emploi.entreprise.nom }}</td>
+                                <td>{{ candidature.emploi.titre }}</td>
+                                <td>{{ candidature.dateCandidature|date:"d/m/Y"}}</td>
+                                <td>{{ candidature.lettreMotivation }}</td>
+                                <td class="{% if candidature.statutCandidature == 'Refusée' %}refused{% else %}accepted{% endif %}">{{ candidature.statutCandidature }}</td>
+                                <td><a href="{% url 'offre_emploi_detail' candidature.emploi.id %}" class="btn btn-primary"><i class="fas fa-eye"></i> Voir l'offre</a></td>
+                                <td><a href="{% url 'chat_message' entreprise_id=candidature.emploi.entreprise.id candidat_id=candidat.id %}" class="btn btn-success"><i class="fas fa-envelope"></i> Contacter</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{% url 'profil_candidat' %}" class="btn btn-primary"><i class="fas fa-sign-out-alt"></i> Retour à mon profil</a>
+            </div>
+        {% else %}
+            <p>Vous n'avez postulé à aucun emploi pour le moment.</p>
+
+        {% endif %}
+        {% endblock %}
+    </div>
+
+    <!-- Scripts Bootstrap (Placez ces scripts juste avant la balise de fermeture </body> pour une meilleure performance) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

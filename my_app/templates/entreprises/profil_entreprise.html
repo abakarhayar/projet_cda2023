@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profil Entreprise - {{ entreprise.nom }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        p {
+            text-align: left;
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+
+        .lien {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .lien:hover {
+            background-color: #45a049;
+        }
+
+        .offre-list {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .offre-item {
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .offre-item h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .offre-item p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .no-offer {
+            color: #999;
+            font-style: italic;
+        }
+
+        .btn-publish {
+            background-color: #f39c12;
+        }
+
+        .btn-publish:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-logout {
+            background-color: #c0392b;
+        }
+
+        .btn-logout:hover {
+            background-color: #a93226;
+        }
+        .plus{
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue sur votre profil, {{ entreprise.nom }} !</h1>
+    
+        <a href="{% url 'modifier_profil_entreprise' entreprise.id %}" class="btn btn-primary" ><i class="fas fa-edit"></i> Mettre à jour mes données personnelles</a>
+    
+    <p><strong>Nom :</strong> {{ entreprise.nom }}</p>
+    <p><strong>SIREN :</strong> {{ entreprise.siren }}</p>
+    <p><strong>Email :</strong> {{ entreprise.email }} <i class="fas fa-envelope"></i></p>
+    <p><strong>Téléphone :</strong> {{ entreprise.telephone }}</p>
+    <p><strong>Ville :</strong> {{ entreprise.ville }}</p>
+    <p><strong>Description :</strong> {{ entreprise.description }}</p>
+
+
+    <a href="{% url 'publier_offre_emploi' %}" class="lien btn-publish"><i class="fas fa-edit"></i> Publier une offre d'emploi</a>
+
+    <a href="{% url 'candidats_par_entreprise' entreprise.id %}" class="lien"><i class="fas fa-users"></i> Liste des candidatures reçues</a>
+
+    <h2>Liste des offres d'emploi</h2>
+
+    {% if emplois %}
+        <ul class="offre-list">
+            {% for emploi in emplois %}
+                <li class="offre-item">
+                    <h3>{{ emploi.titre }}</h3>
+                    <p>Ville: {{ emploi.ville }}</p>
+                    <p>Salaire: {{ emploi.salaire }}</p>
+                    <p>Contrat: {{ emploi.type_contrat }}</p>
+                    <p>{{ emploi.description }}</p> <br>
+                    <a class="plus" href="{% url 'offre_emploi_detail' emploi.id %}" class="lien">En savoir plus</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-offer">Aucune offre d'emploi n'a été publiée pour le moment.</p>
+    {% endif %}
+
+     <!-- Lien pour se déconnecter avec une icône "sign-out-alt" -->
+     <a href="{% url 'deconnexion' %}" class="lien btn-logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+    
+     <!-- Lien pour revenir à la page d'accueil avec une icône "home" -->
+     <a href="{% url 'home' %}" class="lien"><i class="fas fa-home"></i> Page d'accueil</a>
+ 
+
+</body>
+</html>
